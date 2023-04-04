@@ -1,0 +1,12 @@
+<template>
+  <div class="w-72 bg-dark-lighten">
+    hello
+  </div>
+</template>
+
+<script setup>
+
+</script>
+
+<style lang="scss" scoped>
+</style>
