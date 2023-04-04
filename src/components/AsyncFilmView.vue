@@ -51,13 +51,23 @@
                       ({{ film.vote_average.toFixed(1) }})
                     </p>
                   </div>
-                  <p class="text-base self-center">
+                  <!-- length -->
+                  <p v-if="film.runtime" class="text-base self-center">
                     Length: {{ film.runtime }} mins
+                  </p>
+                  <p
+                    v-if="film.number_of_seasons"
+                    class="text-base self-center"
+                  >
+                    Seasons: {{ film.number_of_seasons }}
                   </p>
                 </div>
                 <!-- Released Date -->
-                <p class="text-base self-center">
+                <p v-if="film.release_date" class="text-base self-center">
                   Released: {{ film.release_date }}
+                </p>
+                <p v-if="film.first_air_date" class="text-base self-center">
+                  On air: {{ film.first_air_date }}
                 </p>
                 <!-- Genres -->
                 <ul class="text-base overflow-hidden py-1 mt-1">
