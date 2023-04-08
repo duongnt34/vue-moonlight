@@ -20,7 +20,7 @@
   >
     <!-- logo -->
     <a
-      href="/"
+      href="#"
       class="uppercase text-white md:flex hidden items-center space-x-3 justify-center mt-10"
     >
       <img class="w-8 h-8" src="../../assets/logo.png" alt="logo" />

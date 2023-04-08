@@ -1,5 +1,6 @@
 <template>
   <div class="relative min-h-screen md:flex font-roboto bg-dark">
+    <!-- Nav -->
     <SideBar />
 
     <!-- content -->
@@ -7,14 +8,13 @@
       <router-view :key="route.fullPath"></router-view>
     </main>
 
-    <!-- <RightBar /> -->
+    <!-- Footer -->
   </div>
+  <footer w-full>Hello</footer>
 </template>
 
 <script setup>
 import SideBar from "/src/components/SideBar/SideBar.vue";
-import axios from "axios";
-import RightBar from "./components/RightBar/RightBar.vue";
 import { useGeneralStore } from "./stores/GeneralStore";
 import { useRoute, useRouter } from "vue-router";
 import { computed } from "vue";

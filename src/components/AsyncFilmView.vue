@@ -48,7 +48,7 @@
                       :rating="film.vote_average * 10"
                     />
                     <p class="text-base self-center">
-                      ({{ film.vote_average.toFixed(1) }})
+                      ({{ film.vote_average?.toFixed(1) }})
                     </p>
                   </div>
                   <!-- length -->
@@ -79,7 +79,8 @@
                     <RouterLink
                       :to="{
                         name: 'ExploreView',
-                        query: { genre: genre.name },
+                        query: { genre: genre.name, genreId: genre.id },
+                        params: { id: genre.id },
                       }"
                       class="rounded-lg mr-2 px-2 py-1 border-2"
                     >
