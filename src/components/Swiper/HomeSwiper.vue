@@ -90,7 +90,7 @@ const modules = [Navigation, Autoplay, Lazy];
 const router = useRouter();
 const { genresMap } = useFetchGenresMap();
 const generalStore = useGeneralStore();
-let trendingFilms = ref(null);
+let trendingFilms = ref([]);
 const viewFilm = (id) => {
   router.push({
     name: "FilmView",
@@ -102,10 +102,14 @@ const getTrendingFilms = async () => {
     if (generalStore.currentFilmType == null) {
       const res = await FilmAPI.getTrendingFilm("tv");
       generalStore.changeCurrentFilmType("tv");
-      trendingFilms.value = res.data.results;
+      res.data.results.forEach((film) => {
+        trendingFilms.value.push(film);
+      });
     } else {
       const res = await FilmAPI.getTrendingFilm(generalStore.currentFilmType);
-      trendingFilms.value = res.data.results;
+      res.data.results.forEach((film) => {
+        trendingFilms.value.push(film);
+      });
     }
   } catch (error) {
     console.log(error);
