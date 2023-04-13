@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <div class="mx-auto mt-10 w-3/5 text-center">
-      <label for="searchQuery" class="text-white text-xl"
+      <label for="searchQuery" class="text-gray-lighten text-xl"
         >Find your favourite movies, TV shows, people and more
       </label>
       <form
@@ -25,7 +25,7 @@
           v-model="searchQuery"
           ref="searchInput"
           @input="getSearchData"
-          @keyup.enter="getSearchDataByEnter"
+          @keydown.enter.prevent="getSearchDataByEnter"
           @focus="onInputFocus"
           @blur="onInputBlur"
         />
@@ -47,7 +47,7 @@
           </select>
         </div>
 
-        <!-- Search Results -->
+        <!-- Search Temporary Results -->
         <ul
           class="z-30 hidden w-full bg-dark-lighten rounded-b-lg text-white group-focus-within:flex flex-col relative after:absolute after:top-0 after:h-[1px] after:bg-gray-darken after:left-[5%] after:right-[5%]"
           v-if="mapBoxSearchResults"
@@ -77,12 +77,24 @@
     </div>
 
     <!-- Results section -->
-    <section class="mb-10 w-5/6 mx-auto">
+    <section class="mb-10 mt-5 w-5/6 mx-auto">
+      <h1 class="-mb-10 text-gray-lighten" v-if="listResults.length">
+        {{ totalResult }} results found
+      </h1>
       <ul class="result--section">
         <li v-for="result in listResults" class="mt-16">
           <ThumbnailComponent :film="result"></ThumbnailComponent>
         </li>
       </ul>
+    </section>
+
+    <!-- Pagination -->
+    <section class="mt-16 mb-5">
+      <Pagination
+        :total-page="totalPage"
+        :current-page="currentPage"
+        @update:current-page="getNewPage"
+      />
     </section>
   </div>
 </template>
@@ -91,6 +103,7 @@
 import { ref } from "vue";
 import FilmAPI from "../services/FilmAPI";
 import ThumbnailComponent from "../components/ThumbnailComponent.vue";
+import Pagination from "../components/Utils/Pagination.vue";
 const isInputFocused = ref(false);
 const searchQuery = ref("");
 const searchType = ref("all");
@@ -103,6 +116,9 @@ const searchTypeOptions = ref([
 const queryTimeout = ref(null);
 const mapBoxSearchResults = ref(null);
 const listResults = ref([]);
+const totalPage = ref(0);
+const currentPage = ref(0);
+const totalResult = ref(0);
 
 const onInputFocus = () => {
   isInputFocused.value = true;
@@ -112,55 +128,72 @@ const onInputBlur = () => {
   isInputFocused.value = false;
 };
 
+const getNextPage = async () => {
+  if (pagination.value.nextPage) {
+    const res = await FilmAPI.getSearch(
+      searchQuery.value,
+      searchType.value,
+      pagination.value.nextPage
+    );
+    listResults.value = res.data.results;
+    pagination.value.currentPage = pagination.value.nextPage;
+    pagination.value.nextPage = pagination.value.currentPage + 1;
+    pagination.value.prevPage = pagination.value.currentPage - 1;
+  }
+};
+
+const getPrevPage = async () => {
+  if (pagination.value.prevPage) {
+    const res = await FilmAPI.getSearch(
+      searchQuery.value,
+      searchType.value,
+      pagination.value.prevPage
+    );
+    listResults.value = res.data.results;
+    pagination.value.currentPage = pagination.value.prevPage;
+    pagination.value.nextPage = pagination.value.currentPage + 1;
+    pagination.value.prevPage = pagination.value.currentPage - 1;
+  }
+};
+
 const getSearchData = () => {
   clearTimeout(queryTimeout.value);
   queryTimeout.value = setTimeout(async () => {
-    if (searchQuery.value !== "") {
-      switch (searchType.value) {
-        case "all":
-          const res = await FilmAPI.getMultiSearch(searchQuery.value);
-          mapBoxSearchResults.value = res.data.results.slice(0, 5);
-          return res.data.results;
-        case "tv":
-          const resTv = await FilmAPI.getTvSearch(searchQuery.value);
-          mapBoxSearchResults.value = resTv.data.results.slice(0, 5);
-          return resTv.data.results;
-        case "movies":
-          const resMovies = await FilmAPI.getMovieSearch(searchQuery.value);
-          mapBoxSearchResults.value = resMovies.data.results.slice(0, 5);
-          return resMovies.data.results;
-        case "people":
-          const resPeople = await FilmAPI.getPeopleSearch(searchQuery.value);
-          mapBoxSearchResults.value = resPeople.data.results.slice(0, 5);
-          return resPeople.data.results;
-      }
+    if (searchQuery.value !== "" && searchType.value !== "") {
+      const res = await FilmAPI.getSearch(searchQuery.value, searchType.value);
+      mapBoxSearchResults.value = res.data.results.slice(0, 5);
+      return;
     }
     mapBoxSearchResults.value = null;
   }, 500);
 };
+
 const getSearchDataByEnter = async () => {
-  if (searchQuery.value !== "") {
-    switch (searchType.value) {
-      case "all":
-        const res = await FilmAPI.getMultiSearch(searchQuery.value);
-        listResults.value = res.data.results;
-        searchQuery.value = "";
-        return;
-      case "tv":
-        const resTv = await FilmAPI.getTvSearch(searchQuery.value);
-        listResults.value = resTv.data.results;
-        return resTv.data.results;
-      case "movies":
-        const resMovies = await FilmAPI.getMovieSearch(searchQuery.value);
-        listResults.value = resMovies.data.results;
-        return resMovies.data.results;
-      case "people":
-        const resPeople = await FilmAPI.getPeopleSearch(searchQuery.value);
-        listResults.value = resPeople.data.results;
-        return resPeople.data.results;
-    }
+  clearTimeout(queryTimeout.value);
+  if (searchQuery.value !== "" && searchType.value !== "") {
+    const res = await FilmAPI.getSearch(searchQuery.value, searchType.value);
+    listResults.value = res.data.results;
+    currentPage.value = 1;
+    totalPage.value = res.data.total_pages;
+    totalResult.value = res.data.total_results;
   } else if (listResults.value.length === 0) {
     alert("Please enter a keyword");
+  }
+  setTimeout(() => {
+    mapBoxSearchResults.value = null;
+  }, 500);
+};
+
+const getNewPage = async (page) => {
+  if (typeof page != "number") {
+    const res = await FilmAPI.getSearch(
+      searchQuery.value,
+      searchType.value,
+      page
+    );
+    listResults.value = res.data.results;
+    currentPage.value = page;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 };
 </script>
@@ -169,6 +202,6 @@ const getSearchDataByEnter = async () => {
 .result--section {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 1rem;
+  grid: 1rem;
 }
 </style>
