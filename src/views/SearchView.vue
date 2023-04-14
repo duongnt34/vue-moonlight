@@ -185,7 +185,7 @@ const getSearchDataByEnter = async () => {
 };
 
 const getNewPage = async (page) => {
-  if (typeof page != "number") {
+  if (typeof page == "number") {
     const res = await FilmAPI.getSearch(
       searchQuery.value,
       searchType.value,
@@ -194,6 +194,7 @@ const getNewPage = async (page) => {
     listResults.value = res.data.results;
     currentPage.value = page;
     window.scrollTo({ top: 0, behavior: "smooth" });
+    console.log("a");
   }
 };
 </script>
