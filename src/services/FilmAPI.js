@@ -1,11 +1,54 @@
 import tmdbAPI from "./API";
 
 export default {
+  getSearch: (stringQuery, searchType, currentPage = 1) => {
+    switch (searchType) {
+      case "keyword":
+        return tmdbAPI.get(`/search/keyword`, {
+          params: {
+            language: "en-us",
+            query: `${stringQuery}`,
+            page: currentPage,
+          },
+        });
+      case "tv":
+        return tmdbAPI.get(`/search/tv`, {
+          params: {
+            language: "en-us",
+            query: `${stringQuery}`,
+            page: currentPage,
+          },
+        });
+      case "movie":
+        return tmdbAPI.get(`/search/movie`, {
+          params: {
+            language: "en-us",
+            query: `${stringQuery}`,
+            page: currentPage,
+          },
+        });
+      case "people":
+        return tmdbAPI.get(`/search/person`, {
+          params: {
+            language: "en-us",
+            query: `${stringQuery}`,
+            page: currentPage,
+          },
+        });
+      default:
+        return tmdbAPI.get(`/search/multi`, {
+          params: {
+            language: "en-us",
+            query: `${stringQuery}`,
+            page: currentPage,
+          },
+        });
+    }
+  },
   getMultiSearch: (stringQuery) =>
     tmdbAPI.get(`/search/multi`, {
       params: {
         language: "en-us",
-        page: 1,
         query: `${stringQuery}`,
       },
     }),

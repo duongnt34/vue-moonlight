@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-white">ProfileView</h1>
+  <div></div>
 </template>
 
 <script setup></script>

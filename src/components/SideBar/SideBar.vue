@@ -13,7 +13,7 @@
 
   <!-- sidebar -->
   <div
-    class="absolute inset-y-0 left-0 bg-dark text-blue-100 w-64 space-y-6 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out z-10"
+    class="absolute inset-y-0 left-0 bg-dark text-blue-100 w-64 space-y-6 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out z-50"
     :class="{
       'translate-x-0': showSideBar,
     }"

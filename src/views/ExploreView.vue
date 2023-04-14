@@ -1,7 +1,7 @@
 <template>
-  <div class="mb-10 w-5/6 mx-auto" ref="filmList">
+  <div class="mb-5 w-5/6 mx-auto" ref="filmList">
     <ul class="result--section">
-      <li v-for="film in films" class="mt-16">
+      <li v-for="film in films" class="mt-14">
         <ThumbnailComponent :film="film"></ThumbnailComponent>
       </li>
     </ul>
