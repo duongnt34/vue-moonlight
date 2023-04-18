@@ -59,17 +59,6 @@
             </div>
           </div>
         </div>
-        <!-- Play button -->
-        <!-- <div
-          class="absolute bottom-4 left-2 md:left-10 bg-transparent z-50 flex"
-        >
-          <button
-            class="rounded-lg px-3 pt-1 border-gray-lighten border text-gray-lighten"
-            @click="viewFilm(film.id)"
-          >
-            View more...
-          </button>
-        </div> -->
       </div>
     </swiper-slide>
   </swiper>

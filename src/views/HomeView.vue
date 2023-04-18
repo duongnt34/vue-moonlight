@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-row">
-    <div class="p-10 w-full">
+  <div class="flex flex-row my-10">
+    <div class="w-11/12 mx-auto">
       <div class="flex justify-between !px-2">
         <div class="flex text-gray-lighten gap-2">
           <button
