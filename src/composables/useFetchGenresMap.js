@@ -1,8 +1,12 @@
+//Get genres from API and store in a map
+
 import { ref } from "vue";
 import axios from "axios";
 
 export const useFetchGenresMap = () => {
   const genresMap = ref(new Map());
+  const genresTVMap = ref(new Map());
+  const genresMovieMap = ref(new Map());
   const getGenresMap = async () => {
     try {
       const movieGenres = await axios.get(
@@ -11,6 +15,7 @@ export const useFetchGenresMap = () => {
       movieGenres.data.genres.forEach((el) => {
         if (!genresMap.value.get(el.id)) {
           genresMap.value.set(el.id, el.name);
+          genresMovieMap.value.set(el.id, el.name);
         }
       });
 
@@ -20,6 +25,7 @@ export const useFetchGenresMap = () => {
       tvGenres.data.genres.forEach((el) => {
         if (!genresMap.value.get(el.id)) {
           genresMap.value.set(el.id, el.name);
+          genresTVMap.value.set(el.id, el.name);
         }
       });
     } catch (error) {
@@ -28,5 +34,5 @@ export const useFetchGenresMap = () => {
   };
   getGenresMap();
 
-  return { genresMap };
+  return { genresMap, genresMovieMap, genresTVMap };
 };
