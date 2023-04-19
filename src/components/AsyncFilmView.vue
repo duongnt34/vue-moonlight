@@ -9,7 +9,7 @@
       <div class="text-4xl py-5">
         <h1>{{ film.name }}</h1>
       </div>
-      <div class="flex md:flex-row flex-col-reverse gap-3">
+      <div class="flex md:flex-row flex-col gap-3">
         <!-- content -->
         <div class="md:w-1/2 flex flex-col md:flex-row gap-3">
           <div class="md:w-1/3">
@@ -154,16 +154,13 @@
           </div>
 
           <!-- Player -->
-          <div class="relative">
-            <iframe
-              width="560"
-              height="315"
-              :data-src="filmVideosUrl"
-              frameborder="0"
-              allowfullscreen="true"
-              :src="filmVideosUrl"
-            ></iframe>
-          </div>
+          <iframe
+            class="w-full h-full"
+            :data-src="filmVideosUrl"
+            frameborder="0"
+            allowfullscreen="true"
+            :src="filmVideosUrl"
+          ></iframe>
         </div>
       </div>
     </div>
