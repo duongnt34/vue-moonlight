@@ -154,16 +154,16 @@
           </div>
 
           <!-- Player -->
-          <iframe
-            :src="filmVideosUrl"
-            width="100%"
-            height="100%"
-            scrolling="no"
-            frameborder="0"
-            allowfullscreen="true"
-            webkitallowfullscreen="true"
-            mozallowfullscreen="true"
-          ></iframe>
+          <div class="relative">
+            <iframe
+              width="560"
+              height="315"
+              :data-src="filmVideosUrl"
+              frameborder="0"
+              allowfullscreen="true"
+              :src="filmVideosUrl"
+            ></iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -190,9 +190,10 @@ const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 const filmUrl = `https://api.themoviedb.org/3/${route.params.filmType}/${route.params.id}?api_key=${apiKey}`;
 const filmVideosUrl = computed(() => {
   let url = "";
-  if (route.params.filmType === "movie") {
+  if (route.params.filmType == "movie") {
     url = `https://www.2embed.to/embed/tmdb/movie?id=${route.params.id}`;
-  } else if (route.params.filmType === "tv") {
+    console.log(url);
+  } else if (route.params.filmType == "tv") {
     url = `https://www.2embed.to/embed/tmdb/tv?id=${route.params.id}&s=${currentSeason.value}&e=${currentEpisode.value}`;
   }
   return url;
@@ -295,8 +296,10 @@ await getFilmVideos();
 const viewFilm = ref(null);
 onMounted(() => {
   viewFilm.value.style = `background-image: url(https://image.tmdb.org/t/p/original${film.value.backdrop_path})`;
-  getEpisodes();
-  getSeasons();
+  if (route.params.filmType == "tv") {
+    getEpisodes();
+    getSeasons();
+  }
 });
 </script>
 
