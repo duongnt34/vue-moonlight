@@ -30,10 +30,17 @@ const props = defineProps(["film"]);
 const router = useRouter();
 const generalStore = useGeneralStore();
 const viewFilm = (id) => {
-  router.push({
-    name: "FilmView",
-    params: { filmType: generalStore.currentFilmType, id: id },
-  });
+  if (props.film.media_type) {
+    router.push({
+      name: "FilmView",
+      params: { filmType: props.film.media_type, id: id },
+    });
+  } else {
+    router.push({
+      name: "FilmView",
+      params: { filmType: generalStore.currentFilmType, id: id },
+    });
+  }
 };
 </script>
 

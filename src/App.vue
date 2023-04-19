@@ -1,5 +1,5 @@
 <template>
-  <div class="relative min-h-screen md:flex font-roboto bg-dark">
+  <div class="relative min-h-screen md:flex font-sourcesanspro bg-dark">
     <!-- Nav -->
     <SideBar />
 

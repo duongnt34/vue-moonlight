@@ -38,7 +38,8 @@
           <div v-for="menu in menus">
             <RouterLink
               :to="menu.to"
-              class="space-x-5 my-5 flex text-lg items-center hover:text-white cursor-pointer"
+              active-class="text-primary border-r-2 border-primary bg-gradient-to-r from-transparent to-primary"
+              class="space-x-5 my-5 flex text-lg items-center hover:text-white cursor-pointer p-2"
               @click="showSideBar = false"
             >
               <font-awesome-icon :icon="menu.icon" fixed-width />
@@ -149,11 +150,11 @@ const route = useRoute();
 </script>
 
 <style lang="scss" scoped>
-.router-active-class {
-  border-right-width: 4px;
-  --tw-border-opacity: 1;
-  border-color: rgb(81 121 255 / var(--tw-border-opacity));
-  --tw-text-opacity: 1;
-  color: rgb(81 121 255 / var(--tw-text-opacity));
-}
+// .router-active-class {
+//   border-right-width: 4px;
+//   --tw-border-opacity: 1;
+//   border-color: rgb(81 121 255 / var(--tw-border-opacity));
+//   --tw-text-opacity: 1;
+//   color: rgb(81 121 255 / var(--tw-text-opacity));
+// }
 </style>

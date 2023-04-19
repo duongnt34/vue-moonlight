@@ -32,9 +32,6 @@
               >
                 <span>{{ film.title ? film.title : film.name }}</span>
               </div>
-              <div class="text-white text-sm md:text-2xl">
-                <span>{{ film.title ? film.title : film.name }}</span>
-              </div>
               <div class="text-gray-lighten text-sm md:text-base">
                 <span
                   >Release date:
@@ -44,11 +41,11 @@
                 >
               </div>
               <div
-                class="md:flex gap-3 text-gray-lighten text-sm md:text-base md:mt-7 md:mb-3 hidden"
+                class="md:flex md:flex-wrap gap-3 text-gray-lighten text-sm md:text-base md:mt-7 md:mb-3 hidden"
               >
                 <button
                   v-for="genreId in film.genre_ids"
-                  class="rounded-lg px-3 pt-1 border-gray-lighten border"
+                  class="rounded-lg px-3 py-1 border-gray-lighten border"
                 >
                   {{ genresMap.get(genreId) }}
                 </button>
