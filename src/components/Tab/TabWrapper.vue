@@ -26,8 +26,19 @@ const slots = useSlots();
 const tabTitles = ref(slots.default().map((tab) => tab.props.title));
 const selectedTitle = ref(tabTitles.value[0]);
 provide("selectedTitle", selectedTitle);
-
-const activeStyleClass = ref(`border-b-2 border-b-gray-lighten`);
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.tabs__header {
+  overflow-x: auto;
+}
+/* Hide the vertical scrollbar */
+::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar */
+}
+
+/* Hide the horizontal scrollbar */
+::-webkit-scrollbar-horizontal {
+  display: none; /* Hide the scrollbar */
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="relative !w-[200px] !h-[300px] hover:scale-105 hover:brightness-110 transition duration-300 cursor-pointer overflow-visible"
+    class="relative !w-[200px] !h-[300px] hover:scale-105 hover:brightness-110 transition duration-300 cursor-pointer overflow-visible mx-auto"
     v-if="film"
     @click="viewFilm(film.id)"
   >

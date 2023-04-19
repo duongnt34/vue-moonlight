@@ -7,6 +7,7 @@ import WatchView from "../views/WatchView.vue";
 import BookmarkedView from "../views/BookmarkedView.vue";
 import HistoryView from "../views/HistoryView.vue";
 import ProfileView from "../views/ProfileView.vue";
+import NotFoundView from "../views/NotFoundView.vue";
 
 const routes = [
   {
@@ -48,6 +49,16 @@ const routes = [
     path: "/watch/:id",
     name: "WatchView",
     component: WatchView,
+  },
+  {
+    path: "/404",
+    name: "404",
+    component: () => import("../views/404View.vue"),
+  },
+  {
+    path: "/:catchAll(.*)",
+    name: "NotFoundView",
+    component: NotFoundView,
   },
 ];
 

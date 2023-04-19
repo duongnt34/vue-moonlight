@@ -1,10 +1,17 @@
 <template>
   <div class="bg-dark text-gray-100 flex justify-between md:hidden">
     <!-- logo -->
-    <a href="#" class="block p-4 text-white font-bold">Moonlight</a>
+    <RouterLink
+      :to="{ name: 'HomeView' }"
+      class="block py-2 px-3 md:p-4 text-white font-bold uppercase"
+      ><span class="font-semibold">
+        <span class="text-white">Moon</span>
+        <span class="text-primary">Light</span>
+      </span></RouterLink
+    >
     <!-- button -->
     <button
-      class="p-4 focus:outline-none focus:bg-gray-700"
+      class="py-2 px-3 md:p-4 focus:outline-none focus:bg-gray-700"
       @click="showSideBar = !showSideBar"
     >
       <font-awesome-icon class="h-5 w-5" icon="fa-solid fa-bars" />
@@ -13,14 +20,14 @@
 
   <!-- sidebar -->
   <div
-    class="absolute inset-y-0 left-0 bg-dark text-blue-100 w-64 space-y-6 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out z-50"
+    class="absolute inset-y-0 left-0 top-10 bg-dark text-blue-100 space-y-6 transform -translate-x-full md:relative md:translate-x-0 md:top-0 md:w-52 w-full transition duration-200 ease-in-out z-50"
     :class="{
       'translate-x-0': showSideBar,
     }"
   >
     <!-- logo -->
-    <a
-      href="#"
+    <RouterLink
+      :to="{ name: 'HomeView' }"
       class="uppercase text-white md:flex hidden items-center space-x-3 justify-center mt-10"
     >
       <img class="w-8 h-8" src="../../assets/logo.png" alt="logo" />
@@ -28,59 +35,23 @@
         <span class="text-white">Moon</span>
         <span class="text-primary">Light</span>
       </span>
-    </a>
+    </RouterLink>
     <!-- nav  -->
-    <nav class="pl-7">
+    <nav class="">
       <!-- menu -->
       <div class="text-gray-lighten">
-        <p class="uppercase text-white text-lg font-medium mb-5">Menu</p>
-        <div class="pl-7">
-          <div v-for="menu in menus">
+        <ul class="">
+          <li v-for="menu in menus">
             <RouterLink
               :to="menu.to"
-              active-class="text-primary border-r-2 border-primary bg-gradient-to-r from-transparent to-primary"
-              class="space-x-5 my-5 flex text-lg items-center hover:text-white cursor-pointer p-2"
+              active-class="text-black border-r-2 border-primary bg-gradient-to-r from-transparent to-primary"
+              class="flex justify-center space-x-5 my-5 text-lg items-center hover:text-white cursor-pointer p-2"
               @click="showSideBar = false"
             >
-              <font-awesome-icon :icon="menu.icon" fixed-width />
               <span>{{ menu.name }}</span>
             </RouterLink>
-          </div>
-        </div>
-      </div>
-
-      <!-- personal -->
-      <!-- <div class="text-gray-lighten">
-        <p class="uppercase text-white text-lg font-medium mb-5">Personal</p>
-        <div class="pl-7">
-          <div v-for="personal in personals">
-            <RouterLink
-              :to="personal.to"
-              class="space-x-5 my-5 flex text-lg items-center hover:text-white cursor-pointer"
-              @click="showSideBar = false"
-            >
-              <font-awesome-icon :icon="personal.icon" fixed-width />
-              <span class="ml-5">{{ personal.name }}</span>
-            </RouterLink>
-          </div>
-        </div>
-      </div> -->
-
-      <!-- general -->
-      <div class="text-gray-lighten">
-        <p class="uppercase text-white text-lg font-medium mb-5">General</p>
-        <div class="pl-7">
-          <div v-for="general in generals">
-            <RouterLink
-              :to="general.to"
-              class="space-x-5 my-5 flex text-lg items-center hover:text-white cursor-pointer"
-              @click="showSideBar = false"
-            >
-              <font-awesome-icon :icon="general.icon" fixed-width />
-              <span class="ml-5">{{ general.name }}</span>
-            </RouterLink>
-          </div>
-        </div>
+          </li>
+        </ul>
       </div>
     </nav>
     <div></div>
@@ -111,35 +82,11 @@ const menus = ref([
     current: false,
     icon: `fa-solid fa-magnifying-glass`,
   },
-]);
-
-const personals = ref([
-  {
-    name: "Bookmarked",
-    to: { name: "BookmarkedView" },
-    current: false,
-    icon: `fa-solid fa-bookmark`,
-  },
-  {
-    name: "History",
-    to: { name: "HistoryView" },
-    current: false,
-    icon: `fa-solid fa-clock-rotate-left`,
-  },
-]);
-
-const generals = ref([
-  {
-    name: "Profile",
-    to: { name: "ProfileView" },
-    current: false,
-    icon: `fa-solid fa-circle-user`,
-  },
   // {
-  //   name: "Login",
-  //   to: "",
+  //   name: "Profile",
+  //   to: { name: "ProfileView" },
   //   current: false,
-  //   icon: `fa-solid fa-right-to-bracket`,
+  //   icon: `fa-solid fa-circle-user`,
   // },
 ]);
 
