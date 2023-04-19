@@ -10,7 +10,33 @@
 
     <!-- Footer -->
   </div>
-  <footer w-full>Hello</footer>
+  <footer
+    class="w-full p-2 bg-dark border-t border-gray-darken text-sm text-primary flex justify-between items-center"
+  >
+    <p><font-awesome-icon :icon="['far', 'copyright']" /> 2023 duongnt.</p>
+    <ul class="flex flex-wrap gap-2">
+      <li class="hover:scale-110">
+        <button type="button">
+          <font-awesome-icon :icon="['fab', 'facebook']" />
+        </button>
+      </li>
+      <li class="hover:scale-110">
+        <button type="button">
+          <font-awesome-icon :icon="['fab', 'twitter']" />
+        </button>
+      </li>
+      <li class="hover:scale-110">
+        <button type="button">
+          <font-awesome-icon :icon="['fab', 'instagram']" />
+        </button>
+      </li>
+      <li class="hover:scale-110">
+        <button type="button">
+          <font-awesome-icon :icon="['fab', 'github']" />
+        </button>
+      </li>
+    </ul>
+  </footer>
 </template>
 
 <script setup>

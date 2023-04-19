@@ -25,10 +25,10 @@
         <div
           class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-black"
         >
-          <div class="md:w-5/12 md:pl-10 pl-2 h-full flex items-center">
+          <div class="md:w-7/12 md:pl-12 pl-2 h-full flex items-center">
             <div>
               <div
-                class="text-2xl md:text-5xl md:mb-7 text-primary font-semibold"
+                class="text-2xl md:text-5xl md:mb-5 text-primary font-semibold"
               >
                 <span>{{ film.title ? film.title : film.name }}</span>
               </div>
@@ -41,7 +41,7 @@
                 >
               </div>
               <div
-                class="md:flex md:flex-wrap gap-3 text-gray-lighten text-sm md:text-base md:mt-7 md:mb-3 hidden"
+                class="md:flex md:flex-wrap gap-3 text-gray-lighten text-sm md:text-base md:mt-5 md:mb-3 hidden"
               >
                 <button
                   v-for="genreId in film.genre_ids"
@@ -65,7 +65,7 @@
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation, Autoplay, Lazy } from "swiper";
 import "swiper/css";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useFetchGenresMap } from "../../composables/useFetchGenresMap.js";
 import { useGeneralStore } from "../../stores/GeneralStore";
 import FilmAPI from "../../services/FilmAPI.js";
@@ -102,16 +102,11 @@ const getTrendingFilms = async () => {
   }
 };
 getTrendingFilms();
+onMounted(() => {
+  const swiperBtnNext = document.querySelector(".swiper-button-next");
+  const swiperBtnPrev = document.querySelector(".swiper-button-prev");
+  swiperBtnNext.style.color = "#ffd80e";
+  swiperBtnNext.style.fontSize = "0.5rem";
+  swiperBtnPrev.style.color = "#ffd80e";
+});
 </script>
-
-<style scoped>
-.swiper-lazy-preloader {
-  /* animation: none !important; */
-  /* display: none !important; */
-  content: none;
-}
-.swiper-lazy-preloader:after {
-  display: none !important;
-  content: none;
-}
-</style>

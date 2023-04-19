@@ -3,20 +3,20 @@
     <section>
       <div class="flex text-gray-lighten gap-2">
         <button
-          class="hover:text-white relative w-20 rounded-md duration-300 ease-in-out transition p-1"
+          class="hover:text-white relative w-24 rounded-md duration-300 ease-in-out transition p-1"
           @click="changeCurrentFilmType('tv')"
           :class="{
-            'bg-primary text-white': currentFilmType == `tv`,
+            'bg-primary text-black': currentFilmType == `tv`,
           }"
           type="button"
         >
           <span>TV Shows</span>
         </button>
         <button
-          class="hover:text-white relative w-20 rounded-md duration-300 ease-in-out transition p-1"
+          class="hover:text-white relative w-24 rounded-md duration-300 ease-in-out transition p-1"
           @click="changeCurrentFilmType('movie')"
           :class="{
-            'bg-primary text-white': currentFilmType == `movie`,
+            'bg-primary text-black': currentFilmType == `movie`,
           }"
           type="button"
         >
@@ -47,7 +47,7 @@
     </section>
 
     <section ref="filmList">
-      <ul class="result--section" v-if="films.length">
+      <ul class="result--section md:-mt-5" v-if="films.length">
         <li v-for="film in films" class="mt-14">
           <ThumbnailComponent :film="film"></ThumbnailComponent>
         </li>

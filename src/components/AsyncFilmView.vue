@@ -1,6 +1,9 @@
 <template>
   <!-- General info -->
-  <section class="section--viewFilm bg-center bg-no-repeat" ref="viewFilm">
+  <section
+    class="section--viewFilm bg-center bg-no-repeat bg-cover"
+    ref="viewFilm"
+  >
     <div class="p-12 text-white bg-black/[.8] md:text-lg">
       <!-- title -->
       <div class="text-4xl py-5">
@@ -167,7 +170,7 @@
   </section>
 
   <!-- Advanced Material -->
-  <section class="px-12 pt-5 mb-5">
+  <section class="px-12 py-5">
     <FilmViewTabs :film="film" :filmVideos="filmVideos"></FilmViewTabs>
   </section>
 </template>
@@ -244,7 +247,11 @@ const getFilmInfo = async () => {
     film.value = res.data;
     film.value.name = film.value.title || film.value.name; //tv has name, movie has title
   } catch (error) {
-    console.log(error);
+    if (error.response && error.response.status === 404) {
+      router.push({ path: "/404" });
+    } else {
+      console.log(error);
+    }
   }
 };
 
