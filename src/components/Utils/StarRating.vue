@@ -20,10 +20,9 @@
 
 <script setup>
 import { computed } from "vue";
-
 const props = defineProps(["rating"]);
 const getFilmRating = computed(() => {
-  return `width: ${props.rating}%;`;
+  return `width: ${props.rating * 10}%;`;
 });
 </script>
 

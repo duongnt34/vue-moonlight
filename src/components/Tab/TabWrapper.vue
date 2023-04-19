@@ -1,11 +1,10 @@
 <template>
   <div class="tabs w-full">
-    <ul class="tabs__header flex justify-around">
+    <ul class="tabs__header flex border-b-2 border-primary text-primary">
       <li
-        class="cursor-pointer duration-300 ease-in-out"
+        class="cursor-pointer duration-300 ease-in-out p-2"
         :class="{
-          'border-b-2 border-b-white text-white -translate-y-1.5':
-            title == selectedTitle,
+          ' text-black bg-primary': title == selectedTitle,
         }"
         v-for="title in tabTitles"
         :key="title"

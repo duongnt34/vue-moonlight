@@ -29,7 +29,8 @@
       <ul class="flex gap-2 flex-wrap overflow-auto">
         <li v-for="(genre, index) in genresMap" :key="index">
           <button
-            class="rounded-lg px-3 pt-1 border-gray-lighten border text-sm"
+            type="button"
+            class="rounded-lg px-3 py-1 border-gray-lighten border text-sm"
             ref="genreRefs"
             @click="toggleGenre(genre[0])"
             :class="{

@@ -123,39 +123,13 @@ const totalResult = ref(0);
 const onInputFocus = () => {
   isInputFocused.value = true;
 };
-
 const onInputBlur = () => {
   isInputFocused.value = false;
 };
 
-const getNextPage = async () => {
-  if (pagination.value.nextPage) {
-    const res = await FilmAPI.getSearch(
-      searchQuery.value,
-      searchType.value,
-      pagination.value.nextPage
-    );
-    listResults.value = res.data.results;
-    pagination.value.currentPage = pagination.value.nextPage;
-    pagination.value.nextPage = pagination.value.currentPage + 1;
-    pagination.value.prevPage = pagination.value.currentPage - 1;
-  }
-};
-
-const getPrevPage = async () => {
-  if (pagination.value.prevPage) {
-    const res = await FilmAPI.getSearch(
-      searchQuery.value,
-      searchType.value,
-      pagination.value.prevPage
-    );
-    listResults.value = res.data.results;
-    pagination.value.currentPage = pagination.value.prevPage;
-    pagination.value.nextPage = pagination.value.currentPage + 1;
-    pagination.value.prevPage = pagination.value.currentPage - 1;
-  }
-};
-
+/**
+ * Get search data when input and update to temporary mapbox list result
+ */
 const getSearchData = () => {
   clearTimeout(queryTimeout.value);
   queryTimeout.value = setTimeout(async () => {
@@ -168,6 +142,9 @@ const getSearchData = () => {
   }, 500);
 };
 
+/**
+ * Get search data when press enter
+ */
 const getSearchDataByEnter = async () => {
   clearTimeout(queryTimeout.value);
   if (searchQuery.value !== "" && searchType.value !== "") {
@@ -184,6 +161,9 @@ const getSearchDataByEnter = async () => {
   }, 500);
 };
 
+/**
+ * Get new page when click on pagination
+ */
 const getNewPage = async (page) => {
   if (typeof page == "number") {
     const res = await FilmAPI.getSearch(

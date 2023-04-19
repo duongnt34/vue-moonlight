@@ -65,4 +65,7 @@ export default {
   getFilmVideos: (filmType, filmId) =>
     tmdbAPI.get(`/${filmType}/${filmId}/videos`),
   getListFilm: (filmType, listType) => tmdbAPI.get(`/${filmType}/${listType}`), //listType: popular, top_rated, ...
+  getFilmImages: (filmType, filmId) =>
+    tmdbAPI.get(`/${filmType}/${filmId}/images`),
+  getEpisodesGroup: (tvId) => tmdbAPI.get(`/tv/${tvId}/episode_groups`),
 };

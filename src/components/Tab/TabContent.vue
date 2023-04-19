@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-content" v-show="title == selectedTitle">
+  <div class="tab-content" v-if="title == selectedTitle">
     <slot />
   </div>
 </template>

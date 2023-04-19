@@ -1,178 +1,251 @@
 <template>
-  <div class="flex flex-col md:flex-row">
-    <!-- Link Film Modal -->
-    <Modal class="z-50" @close="toggleModal" :modalActive="modalActive">
-      <div class="modal-content flex flex-col">
-        <h1>This is a Modal Header</h1>
-        <p>Modal Content</p>
+  <!-- General info -->
+  <section class="section--viewFilm bg-center bg-no-repeat" ref="viewFilm">
+    <div class="p-12 text-white bg-black/[.8] md:text-lg">
+      <!-- title -->
+      <div class="text-4xl py-5">
+        <h1>{{ film.name }}</h1>
       </div>
-    </Modal>
-    <div class="flex w-full h-full">
-      <div v-if="film" class="flex-1 flex flex-col relative">
-        <div class="absolute top-0">
-          <div class="relative">
+      <div class="flex md:flex-row flex-col-reverse gap-3">
+        <!-- content -->
+        <div class="md:w-1/2 flex flex-col md:flex-row gap-3">
+          <div class="md:w-1/3">
             <img
-              class="md:h-[400px] h-[300px] object-cover w-screen"
-              :src="`https://image.tmdb.org/t/p/original/${film.backdrop_path}`"
-              alt=""
+              class="border-2 border-primary rounded-md"
+              :src="`https://image.tmdb.org/t/p/w300${film.poster_path}`"
+              alt="film poster"
             />
-            <div
-              class="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black"
-            ></div>
           </div>
-        </div>
-        <div class="relative mt-12 md:mt-0">
-          <!-- Poster, Film Info...    -->
-          <div
-            class="flex flex-col items-center w-full md:flex-row md:h-[400px] md:mt-28 md:px-28"
-          >
-            <!-- Poster -->
-            <img
-              class="w-[185px] shadow-md shadow-black rounded-md"
-              :src="`https://image.tmdb.org/t/p/original${film.poster_path}`"
-              alt="Film poster"
-            />
-            <!-- Film Info -->
-            <div
-              class="text-white text-2xl mt-3 px-5 w-full md:flex md:justify-between"
-            >
-              <div class="flex-1">
-                <p class="md:text-5xl">
-                  <span>{{ film.name ? film.name : film.title }}</span>
-                </p>
-                <!-- Star Rating system -->
-                <div class="flex justify-between md:block">
-                  <div class="flex">
-                    <StarRating
-                      class="text-primary"
-                      :rating="film.vote_average * 10"
-                    />
-                    <p class="text-base self-center">
-                      ({{ film.vote_average?.toFixed(1) }})
-                    </p>
-                  </div>
-                  <!-- length -->
-                  <p v-if="film.runtime" class="text-base self-center">
-                    Length: {{ film.runtime }} mins
-                  </p>
-                  <p
-                    v-if="film.number_of_seasons"
-                    class="text-base self-center"
-                  >
-                    Seasons: {{ film.number_of_seasons }}
-                  </p>
-                </div>
-                <!-- Released Date -->
-                <p v-if="film.release_date" class="text-base self-center">
-                  Released: {{ film.release_date }}
-                </p>
-                <p v-if="film.first_air_date" class="text-base self-center">
-                  On air: {{ film.first_air_date }}
-                </p>
-                <!-- Genres -->
-                <ul class="text-base overflow-hidden py-1 mt-1">
+          <div class="md:w-2/3 flex flex-col justify-between">
+            <ul>
+              <li class="">
+                <StarRating
+                  class="text-lg"
+                  :rating="film.vote_average"
+                ></StarRating>
+                <span class="text-primary"
+                  >({{ film.vote_average?.toFixed(1) }})</span
+                >
+              </li>
+              <li v-if="film.release_date">
+                Release date:
+                <span class="text-primary">{{
+                  formatDate(film.release_date)
+                }}</span>
+              </li>
+              <li v-if="film.first_air_date">
+                Release date:
+                <span class="text-primary">{{
+                  formatDate(film.first_air_date)
+                }}</span>
+              </li>
+              <li v-if="film.runtime">
+                Runtime:
+                <span class="text-primary">{{ film.runtime }} min</span>
+              </li>
+              <li v-if="film.number_of_seasons">
+                Seasons:
+                <span class="text-primary">{{ film.number_of_seasons }}</span>
+              </li>
+              <li v-if="film.number_of_episodes">
+                Episodes:
+                <span class="text-primary">{{ film.number_of_episodes }}</span>
+              </li>
+              <li class="flex gap-1">
+                <span>Genres:</span>
+                <ul class="flex flex-wrap gap-2">
                   <li
-                    class="float-left my-2"
-                    v-for="genre in film.genres"
-                    :key="genre.id"
+                    class="text-primary hover:text-white transition duration-300"
+                    v-for="(genre, index) in film.genres"
                   >
-                    <RouterLink
-                      :to="{
-                        name: 'ExploreView',
-                        query: { genre: genre.name, genreId: genre.id },
-                        params: { id: genre.id },
-                      }"
-                      class="rounded-lg mr-2 px-2 py-1 border-2"
-                    >
-                      {{ genre.name }}
-                    </RouterLink>
+                    <button>{{ genre.name }}</button>
+                    <span v-if="index < film.genres.length - 1">,</span>
                   </li>
                 </ul>
-              </div>
-              <!-- Watch Button -->
-              <!-- <div
-                class="text-white text-base flex justify-center items-center"
-              >
-                <button
-                  class="w-full bg-primary cursor-pointer rounded-lg py-1 px-2 text-center md:w-20 md:h-20 md:rounded-full md:p-3"
-                  @click="toggleModal"
-                >
-                  <font-awesome-icon icon="fa-solid fa-play" />
-                  <span class="md:hidden"> Watch Now </span>
-                </button>
-              </div> -->
+              </li>
+              <li>
+                Release company:
+                <span class="text-primary">{{
+                  film.production_companies[0]?.name
+                }}</span>
+              </li>
+              <li>
+                Release Country:
+                <span class="text-primary">{{
+                  film.production_countries[0]?.name
+                }}</span>
+              </li>
+            </ul>
+            <div>
+              <p class="">Plot:</p>
+              <p class="overflow-hidden line-clamp-5 text-primary">
+                {{ film.overview }}
+              </p>
             </div>
           </div>
-
-          <div class="mt-2 w-full md:flex md:flex-row">
-            <!-- Tabs -->
-            <div class="max-h-full md:w-4/5 px-5 md:-mt-10 mt-5">
-              <FilmViewTabs
-                class="flex justify-center text-gray-lighten border-x border-gray-darken md:text-lg md:border-l-0"
-                :film="film"
-              />
-            </div>
-            <div class="md:-mt-10">
-              <p class="text-gray-lighten text-lg mt-3 px-5">Videos:</p>
-              <ul class="flex flex-col justify-center items-center">
-                <li v-for="video in filmVideos" :key="video.id" class="py-2">
-                  <iframe
-                    width="300"
-                    height="200"
-                    :src="`https://www.youtube.com/embed/${video.key}`"
-                    :title="video.name"
-                    frameborder="1"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                  >
-                  </iframe>
+        </div>
+        <div class="md:w-1/2 flex flex-col gap-2">
+          <!--Season and Episodes Dropdowns -->
+          <div class="flex gap-2" v-if="route.params.filmType == 'tv'">
+            <!-- Season Dropdown -->
+            <div class="relative">
+              <button
+                type="button"
+                class="bg-primary rounded-lg text-black p-2"
+                @click="toggleSeasonDropdown"
+              >
+                <p>
+                  Seasons: {{ currentSeason }}
+                  <font-awesome-icon :icon="['fas', 'caret-down']" />
+                </p>
+              </button>
+              <ul
+                class="absolute bg-dark-darken border-primary border-2 !rounded-lg shadow-lg z-10 w-full"
+                v-if="isSeasonDropdownOpen"
+              >
+                <li
+                  v-for="(season, index) in seasons"
+                  :key="index"
+                  :value="season"
+                  class="p-2 hover:bg-primary hover:text-black transition duration-300 cursor-pointer"
+                  @click="selectSeason(season)"
+                >
+                  {{ season }}
                 </li>
               </ul>
             </div>
+
+            <!-- Episodes Dropdown -->
+            <div class="relative">
+              <button
+                class="bg-primary rounded-lg text-black p-2"
+                type="button"
+                @click="toggleEpisodeDropdown"
+              >
+                <p>
+                  Episodes: {{ currentEpisode }}
+                  <font-awesome-icon :icon="['fas', 'caret-down']" />
+                </p>
+              </button>
+              <ul
+                class="absolute bg-dark-darken border-primary border-2 !rounded-lg shadow-lg z-10 w-96 max-h-96 overflow-auto"
+                v-if="isEpisodeDropdownOpen && episodes.length > 0"
+              >
+                <li
+                  v-for="(episode, index) in episodes"
+                  :key="index"
+                  :value="episode.episode_number"
+                  class="p-2 hover:bg-primary hover:text-black transition duration-300 cursor-pointer overflow-hidden"
+                  @click="selectEpisode(episode.episode_number)"
+                >
+                  {{ `${episode.episode_number}: ${episode.name}` }}
+                </li>
+              </ul>
+              <p
+                class="absolute bg-dark-darken border-primary border-2 !rounded-lg shadow-lg z-10 w-96 max-h-96 overflow-auto"
+                v-else-if="isEpisodeDropdownOpen && episodes.length == 0"
+              >
+                There's no episodes for this season yet
+              </p>
+            </div>
           </div>
+
+          <!-- Player -->
+          <iframe
+            :src="filmVideosUrl"
+            width="100%"
+            height="100%"
+            scrolling="no"
+            frameborder="0"
+            allowfullscreen="true"
+            webkitallowfullscreen="true"
+            mozallowfullscreen="true"
+          ></iframe>
         </div>
       </div>
     </div>
-  </div>
+  </section>
+
+  <!-- Advanced Material -->
+  <section class="px-12 pt-5 mb-5">
+    <FilmViewTabs :film="film" :filmVideos="filmVideos"></FilmViewTabs>
+  </section>
 </template>
 
 <script setup>
 import axios from "axios";
-import { ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import FilmViewTabs from "./FilmViewTabs.vue";
 import StarRating from "./Utils/StarRating.vue";
-import Modal from "./Utils/Modal.vue";
 import FilmAPI from "../services/FilmAPI";
 
 const route = useRoute();
 const router = useRouter();
 
-const modalActive = ref(false);
-const toggleModal = () => {
-  modalActive.value = !modalActive.value;
-};
-
 const apiKey = import.meta.env.VITE_TMDB_API_KEY;
 const filmUrl = `https://api.themoviedb.org/3/${route.params.filmType}/${route.params.id}?api_key=${apiKey}`;
+const filmVideosUrl = computed(() => {
+  let url = "";
+  if (route.params.filmType === "movie") {
+    url = `https://www.2embed.to/embed/tmdb/movie?id=${route.params.id}`;
+  } else if (route.params.filmType === "tv") {
+    url = `https://www.2embed.to/embed/tmdb/tv?id=${route.params.id}&s=${currentSeason.value}&e=${currentEpisode.value}`;
+  }
+  return url;
+});
 
 const film = ref(null);
-const getFilmInfo = async () => {
+
+// episodes functions
+const episodes = ref([]);
+const currentEpisode = ref(1);
+const getEpisodes = async () => {
   try {
-    const res = await axios.get(filmUrl);
-    film.value = res.data;
+    episodes.value = [];
+    const res = await axios.get(
+      `https://api.themoviedb.org/3/tv/${route.params.id}/season/${currentSeason.value}?api_key=${apiKey}`
+    );
+    episodes.value.push(...res.data.episodes);
   } catch (error) {
     console.log(error);
   }
 };
+const isEpisodeDropdownOpen = ref(false);
+const toggleEpisodeDropdown = () => {
+  isEpisodeDropdownOpen.value = !isEpisodeDropdownOpen.value;
+};
+const selectEpisode = (episode) => {
+  currentEpisode.value = episode;
+  isEpisodeDropdownOpen.value = false;
+};
 
-const toWatchView = (filmId) => {
-  router.push({
-    name: "WatchView",
-    params: {
-      id: filmId,
-    },
-  });
+// season functions
+const seasons = ref([]);
+const currentSeason = ref(1);
+const getSeasons = async () => {
+  for (let i = 0; i < film.value.number_of_seasons; i++) {
+    seasons.value.push(i + 1);
+  }
+};
+const isSeasonDropdownOpen = ref(false);
+const toggleSeasonDropdown = () => {
+  isSeasonDropdownOpen.value = !isSeasonDropdownOpen.value;
+};
+const selectSeason = (season) => {
+  currentSeason.value = season;
+  currentEpisode.value = 1;
+  isSeasonDropdownOpen.value = false;
+};
+
+const getFilmInfo = async () => {
+  try {
+    const res = await axios.get(filmUrl);
+    film.value = res.data;
+    film.value.name = film.value.title || film.value.name; //tv has name, movie has title
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const filmVideos = ref(null);
@@ -191,19 +264,33 @@ const getFilmVideos = async () => {
   }
 };
 
-const getFilmWatchProvider = async () => {
-  try {
-    const res = await axios.get(
-      `https://api.themoviedb.org/3/${route.params.filmType}/${route.params.id}/watch/providers?api_key=${apiKey}`
-    );
-  } catch (error) {
-    // console.log(error);
-  }
+// Format date
+const formatDate = (tmdbDate) => {
+  const dateString = tmdbDate; //String
+  const dateParts = dateString.split("-");
+  const day = dateParts[2];
+  const month = dateParts[1];
+  const year = dateParts[0];
+  const formattedDate = `${day}-${month}-${year}`;
+  return formattedDate;
 };
+
+watch(
+  () => currentSeason.value,
+  () => {
+    getEpisodes();
+  }
+);
 
 await getFilmInfo();
 await getFilmVideos();
-await getFilmWatchProvider();
+
+const viewFilm = ref(null);
+onMounted(() => {
+  viewFilm.value.style = `background-image: url(https://image.tmdb.org/t/p/original${film.value.backdrop_path})`;
+  getEpisodes();
+  getSeasons();
+});
 </script>
 
 <style lang="scss" scoped></style>
