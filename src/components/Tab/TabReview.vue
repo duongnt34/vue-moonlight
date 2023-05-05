@@ -95,7 +95,7 @@ const getFilmReviews = async () => {
               el.author_details.avatar_path.substring(1);
           }
         } else {
-          el.author_details.avatar_path = new URL(`/src/assets/logo.png`, import.meta.url);
+          el.author_details.avatar_path = new URL(`/src/assets/logo.png`, window.location.origin);
         }
       });
     }
@@ -128,7 +128,7 @@ const getMoreFilmReviews = async () => {
               el.author_details.avatar_path.substring(1);
           }
         } else {
-          el.author_details.avatar_path = new URL(`/src/assets/logo.png`, import.meta.url) ;
+          el.author_details.avatar_path = new URL(`/src/assets/logo.png`, window.location.origin) ;
         }
       });
     }
