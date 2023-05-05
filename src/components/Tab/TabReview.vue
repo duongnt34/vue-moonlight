@@ -61,6 +61,7 @@
 import FilmAPI from "../../services/FilmAPI";
 import { ref } from "vue";
 import { useRoute } from "vue-router";
+import logoImg from '../../assets/logo.png'
 
 const props = defineProps(["film"]);
 const route = useRoute();
@@ -95,7 +96,7 @@ const getFilmReviews = async () => {
               el.author_details.avatar_path.substring(1);
           }
         } else {
-          el.author_details.avatar_path = new URL(`/src/assets/logo.png`, window.location.origin);
+          el.author_details.avatar_path = logoImg;
         }
       });
     }
@@ -128,7 +129,7 @@ const getMoreFilmReviews = async () => {
               el.author_details.avatar_path.substring(1);
           }
         } else {
-          el.author_details.avatar_path = new URL(`/src/assets/logo.png`, window.location.origin) ;
+          el.author_details.avatar_path = logoImg;
         }
       });
     }
