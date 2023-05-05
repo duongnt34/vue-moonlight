@@ -81,7 +81,9 @@
       <h1 class="-mb-10 text-gray-lighten" v-if="listResults.length">
         {{ totalResult }} results found
       </h1>
-      <ul class="result--section grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 ">
+      <ul
+        class="result--section grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6"
+      >
         <li v-for="result in listResults" class="mt-16">
           <ThumbnailComponent :film="result"></ThumbnailComponent>
         </li>
@@ -148,17 +150,37 @@ const getSearchData = () => {
 const getSearchDataByEnter = async () => {
   clearTimeout(queryTimeout.value);
   if (searchQuery.value !== "" && searchType.value !== "") {
-    const res = await FilmAPI.getSearch(searchQuery.value, searchType.value);
-    listResults.value = res.data.results;
-    currentPage.value = 1;
-    totalPage.value = res.data.total_pages;
-    totalResult.value = res.data.total_results;
+    try {
+      const res = await FilmAPI.getSearch(searchQuery.value, searchType.value);
+      listResults.value = res.data.results;
+      currentPage.value = 1;
+      totalPage.value = res.data.total_pages;
+      totalResult.value = res.data.total_results;
+    } catch (error) {
+      console.log(error);
+    }
   } else if (listResults.value.length === 0) {
     alert("Please enter a keyword");
   }
   setTimeout(() => {
     mapBoxSearchResults.value = null;
   }, 500);
+};
+
+const getSearchResultDetail = async (searchResult) => {
+  clearTimeout(queryTimeout.value);
+  let searchQuery = searchResult.title ? searchResult.title : searchResult.name;
+  let searchType = searchQuery.media_type;
+  try {
+    const res = await FilmAPI.getSearch(searchQuery, searchType);
+    listResults.value = res.data.results;
+    currentPage.value = 1;
+    totalPage.value = res.data.total_pages;
+    totalResult.value = res.data.total_results;
+  } catch (error) {
+    console.log(error);
+  }
+  mapBoxSearchResults.value = null;
 };
 
 /**
@@ -179,5 +201,4 @@ const getNewPage = async (page) => {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
