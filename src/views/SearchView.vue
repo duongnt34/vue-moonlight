@@ -81,7 +81,7 @@
       <h1 class="-mb-10 text-gray-lighten" v-if="listResults.length">
         {{ totalResult }} results found
       </h1>
-      <ul class="result--section">
+      <ul class="result--section grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 ">
         <li v-for="result in listResults" class="mt-16">
           <ThumbnailComponent :film="result"></ThumbnailComponent>
         </li>
@@ -180,9 +180,4 @@ const getNewPage = async (page) => {
 </script>
 
 <style lang="scss" scoped>
-.result--section {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid: 1rem;
-}
 </style>

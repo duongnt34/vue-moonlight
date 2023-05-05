@@ -45,9 +45,9 @@
         </li>
       </ul>
     </section>
-
+    
     <section ref="filmList">
-      <ul class="result--section md:-mt-5" v-if="films.length">
+      <ul class="result--section grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-1 md:gap-5" v-if="films.length">
         <li v-for="film in films" class="mt-14">
           <ThumbnailComponent :film="film"></ThumbnailComponent>
         </li>
@@ -160,11 +160,3 @@ onMounted(() => {
   window.addEventListener("scroll", handleScroll);
 });
 </script>
-
-<style lang="scss" scoped>
-.result--section {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 1rem;
-}
-</style>

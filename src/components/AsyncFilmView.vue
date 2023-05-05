@@ -4,15 +4,15 @@
     class="section--viewFilm bg-center bg-no-repeat bg-cover"
     ref="viewFilm"
   >
-    <div class="p-12 text-white bg-black/[.8] md:text-lg">
+    <div class="p-5 md:p-12 text-white bg-black/[.8] md:text-lg">
       <!-- title -->
-      <div class="text-4xl py-5">
+      <div class="text-4xl py-5 text-center md:text-left">
         <h1>{{ film.name }}</h1>
       </div>
       <div class="flex md:flex-row flex-col gap-3">
         <!-- content -->
         <div class="md:w-1/2 flex flex-col md:flex-row gap-3">
-          <div class="md:w-1/3">
+          <div class="md:w-1/3 flex justify-center items-center md:items-start">
             <img
               class="border-2 border-primary rounded-md"
               :src="`https://image.tmdb.org/t/p/w300${film.poster_path}`"
@@ -167,7 +167,7 @@
   </section>
 
   <!-- Advanced Material -->
-  <section class="px-12 py-5">
+  <section class="p-5 md:px-12 py-5">
     <FilmViewTabs :film="film" :filmVideos="filmVideos"></FilmViewTabs>
   </section>
 </template>

@@ -5,37 +5,36 @@
   >
     There is no reviews for this film.
   </p>
-  <ul v-else class="p-5">
+  <ul v-else class="">
     <li
-      v-for="review in filmReviews"
-      :key="review.id"
-      class="flex w-full mb-2 gap-2"
-    >
-      <img
-        class="w-10 h-10 rounded-full object-cover"
-        :src="`${review.author_details?.avatar_path}`"
-        alt="reviewer avatar"
-      />
+      v-for="(review, index) in filmReviews"
+      :key="index"
+      class="flex w-full p-5 gap-2"
+    ><div>
+      <figure class="w-10 h-10">
+        <img
+          class="w-full h-full rounded-full object-fill"
+          :src="`${review.author_details?.avatar_path}`"
+          alt="reviewer avatar"
+        />
+      </figure>
+    </div>
       <div class="flex flex-col">
         <p class="text-primary">{{ review.author }}</p>
         <div>
           <p
-            class="overflow-wrap-anywhere text-white"
-            :class="{ 'line-clamp-2': !review.isExpanded }"
+            class="text-white"
           >
-            {{ review.content }}
+            <span v-if="!review.isExpanded">
+              <span v-if="review.restContent">{{ `${review.shortContent + review.ellipsis }`}}</span>
+              <span v-else>{{ review.shortContent}}</span>
+            </span>
+            <span v-else>
+              {{ review.shortContent + review.restContent }}
+            </span>
+            <button type="button" class="ml-5 underline italic text-sm" v-if="review.restContent  && !review.isExpanded" @click="showReview(index)">show more</button>
+            <button type="button" class="ml-5 underline italic text-sm" v-if="review.restContent && review.isExpanded" @click="showReview(index)">show less</button>
           </p>
-          <button
-            class="italic text-sm text-white"
-            @click="review.isExpanded = !review.isExpanded"
-          >
-            <span :class="{ hidden: review.isExpanded }"
-              ><font-awesome-icon :icon="['fas', 'angles-down']"
-            /></span>
-            <span :class="{ hidden: !review.isExpanded }"
-              ><font-awesome-icon :icon="['fas', 'angles-up']"
-            /></span>
-          </button>
         </div>
       </div>
     </li>
@@ -75,9 +74,13 @@ const getFilmReviews = async () => {
     );
     filmReviews.value = [];
     res.data.results.forEach((el, index) => {
+      el.shortContent = el.content.slice(0, 450)
+      el.ellipsis = '...'
+      el.restContent = el.content.slice(450)
       filmReviews.value.push(el);
     });
     filmReviews.value = filmReviews.value.slice(0, 5);
+
     if (Array.isArray(filmReviews.value)) {
       filmReviews.value.forEach((el) => {
         el.isExpanded = false;
@@ -92,7 +95,7 @@ const getFilmReviews = async () => {
               el.author_details.avatar_path.substring(1);
           }
         } else {
-          el.author_details.avatar_path = `/src/assets/logo.png`;
+          el.author_details.avatar_path = new URL(`/src/assets/logo.png`, import.meta.url);
         }
       });
     }
@@ -125,7 +128,7 @@ const getMoreFilmReviews = async () => {
               el.author_details.avatar_path.substring(1);
           }
         } else {
-          el.author_details.avatar_path = `/src/assets/logo.png`;
+          el.author_details.avatar_path = new URL(`/src/assets/logo.png`, import.meta.url) ;
         }
       });
     }
@@ -133,7 +136,10 @@ const getMoreFilmReviews = async () => {
     console.log(error);
   }
 };
-
+const showReview = (index) => {
+  filmReviews.value[index].isExpanded = !filmReviews.value[index].isExpanded
+  console.log(filmReviews.value[index]);
+}
 await getFilmReviews();
 </script>
 
