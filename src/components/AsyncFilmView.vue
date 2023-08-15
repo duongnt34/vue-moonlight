@@ -188,10 +188,10 @@ const filmUrl = `https://api.themoviedb.org/3/${route.params.filmType}/${route.p
 const filmVideosUrl = computed(() => {
   let url = "";
   if (route.params.filmType == "movie") {
-    url = `https://www.2embed.to/embed/tmdb/movie?id=${route.params.id}`;
+    url = `https://www.2embed.cc/embed/${route.params.id}`;
     console.log(url);
   } else if (route.params.filmType == "tv") {
-    url = `https://www.2embed.to/embed/tmdb/tv?id=${route.params.id}&s=${currentSeason.value}&e=${currentEpisode.value}`;
+    url = `https://www.2embed.cc/embedtv/${route.params.id}&s=${currentSeason.value}&e=${currentEpisode.value}`;
   }
   return url;
 });
